@@ -1,24 +1,30 @@
 class Triangle
-  attr_accessor :side_1, :side_2, :side_3
+  attr_reader :a, :b, :c
 
-  def initialize(attributes)
-    attributes.each {|key, value}| self.send(("#{key}="), value)}
+  def initialize(a, b, c)
+    @a = a
+    @b = b
+    @c = c
   end
 
   def kind
-    if side_1 = side_2 != {side_3}
-      return "isosceles"
-    elsif side_1 = side_2 = side_3
-      return "equilateral"
+    validate_triangle
+    if a == b && b == c
+      :equilateral
+    elsif a == b || bb == c || a == c
+      :isosceles
     else
-      return "scalene"
-
-
+      :scalene
     end
   end
 
-  class TriangleError < StandardError
+  def validate_triangle
+    triangle = [(a + b > c), (a + c > b), (b + c > a)]
+    [a,b,c].each {|s| triangle << false if s <= 0 }
+    raise TriangleError if triangle.include?(false)
+  end
 
+  class TriangleError < StandardError
   end
 
 end
